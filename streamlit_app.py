@@ -3,17 +3,18 @@ import pty
 import subprocess
 import os
 
-def execute_ls():
+def execute_command(command):
     master, slave = pty.openpty()
-    p = subprocess.Popen(['/bin/sh', '-c', './sshx'], stdout=slave, stderr=slave, close_fds=True)
+    p = subprocess.Popen(['/bin/sh', '-c', command], stdout=slave, stderr=slave, close_fds=True)
     os.close(slave)
     output = os.read(master, 1024).decode()
     os.close(master)
     return output
 
 # Streamlit app
-st.title("Execute 'ls' Command")
+st.title("Execute Shell Command")
 
-if st.button('Execute ls Command'):
-    result = execute_ls()
+command = st.text_input('Enter a command to execute:')
+if command:
+    result = execute_command(command)
     st.text_area("Command Output", result)
