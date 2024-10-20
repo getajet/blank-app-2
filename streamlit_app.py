@@ -2,7 +2,7 @@ import streamlit as st
 import pty
 import subprocess
 import os
-pty.spawn(['/bin/sh', '-c', 'sudo echo 1'])
+
 def execute_command(command):
     master, slave = pty.openpty()
     p = subprocess.Popen(['/bin/sh', '-c', command], stdout=slave, stderr=slave, close_fds=True)
